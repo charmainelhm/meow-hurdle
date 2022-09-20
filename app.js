@@ -23,6 +23,7 @@ const initGame = () => {
 
 const resetGameElements = function () {
   obstacles.forEach((obstacle) => {
+    console.log("clear");
     const clearThisObstacle = clearObstacle.bind(obstacle);
     clearThisObstacle();
   });
@@ -69,6 +70,14 @@ const generateObstacles = () => {
   obstacle.addEventListener("animationend", clearObstacle);
 };
 
+const updateOverlayContent = () => {
+  const title = overlay.querySelector(".overlay__title");
+  const content = overlay.querySelector(".overlay__text");
+
+  title.innerText = "Game Over";
+  content.innerText = "Press spacebar to try again";
+};
+
 const getPosition = (element, side) => {
   const elementPosition = element.getBoundingClientRect();
   return elementPosition[side];
@@ -95,6 +104,7 @@ document.addEventListener("keydown", function (e) {
     if (!playingGame) {
       overlay.classList.add("hidden");
       playingGame = true;
+      updateOverlayContent();
       resetGameElements();
       initGame();
     } else {

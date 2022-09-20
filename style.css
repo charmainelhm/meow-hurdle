@@ -74,11 +74,15 @@ body {
   background-color: rgb(255, 255, 255);
   border: 2px solid black;
   border-radius: 8px;
+  text-align: center;
+}
+
+.overlay__title {
+  font-size: 14px;
 }
 
 .overlay__text {
-  text-align: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .hidden {
