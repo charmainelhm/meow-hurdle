@@ -1,14 +1,42 @@
+"use strict";
+
 const gameScreen = document.querySelector(".screen");
 const character = document.querySelector("#cat");
 const overlay = document.querySelector(".overlay");
 
-const originLeft = character.getBoundingClientRect().left;
-const originBottom = character.getBoundingClientRect().bottom;
+const screenLeft = gameScreen.getBoundingClientRect().left;
+const screenBottom = gameScreen.getBoundingClientRect().bottom;
 
-const obstacles = [];
+let obstacles = [];
 
 let playingGame = false;
 let setObstacle, collisionChecker, timeoutObstacle;
+
+const initGame = () => {
+  setObstacle = setInterval(() => {
+    const waitTime = Math.random() * 2000;
+    timeoutObstacle = setTimeout(generateObstacles, waitTime);
+  }, 3000);
+
+  collisionChecker = setInterval(checkForCollision, 100);
+};
+
+const resetGameElements = function () {
+  obstacles.forEach((obstacle) => {
+    const clearThisObstacle = clearObstacle.bind(obstacle);
+    clearThisObstacle();
+  });
+
+  character.removeAttribute("style");
+};
+
+const pauseGameElements = () => {
+  character.style.animationPlayState = "paused";
+
+  obstacles.forEach((obstacle) => {
+    obstacle.style.animationPlayState = "paused";
+  });
+};
 
 const jump = () => {
   if (character.classList !== "jump") {
@@ -20,65 +48,46 @@ const jump = () => {
   });
 };
 
+const clearIntervals = () => {
+  clearInterval(setObstacle);
+  clearInterval(collisionChecker);
+  clearTimeout(timeoutObstacle);
+};
+
+const clearObstacle = function () {
+  console.log(this);
+  this.remove();
+  obstacles.shift();
+};
+
 const generateObstacles = () => {
   const obstacle = document.createElement("div");
   obstacle.classList.add("obstacle");
-
-  obstacle.addEventListener("animationend", () => {
-    gameScreen.removeChild(obstacle);
-  });
-
   obstacles.push(obstacle);
-
   gameScreen.appendChild(obstacle);
+
+  obstacle.addEventListener("animationend", clearObstacle);
+};
+
+const getPosition = (element, side) => {
+  const elementPosition = element.getBoundingClientRect();
+  return elementPosition[side];
 };
 
 const checkForCollision = () => {
-  const characterPosition = character.getBoundingClientRect();
-  const obstacle = document.querySelector(".obstacle");
-  if (!obstacle) return;
+  if (obstacles.length === 0) return;
 
-  const obstaclePosition = obstacle.getBoundingClientRect();
+  const obstacle = obstacles[0];
 
-  const obstacleLeft = obstaclePosition.left - originLeft;
-  const characterBottom = originBottom - characterPosition.bottom;
+  const obstacleLeft = getPosition(obstacle, "left") - screenLeft;
+  const characterBottom = screenBottom - getPosition(character, "bottom");
 
   if (characterBottom < 55 && obstacleLeft < 50 && obstacleLeft > 0) {
-    clearInterval(setObstacle);
-    clearInterval(collisionChecker);
-    clearTimeout(timeoutObstacle);
-    console.log("obstacle interval: " + setObstacle);
-
-    character.style.animationPlayState = "paused";
-    const allObstacles = document.querySelectorAll(".obstacle");
-
-    allObstacles.forEach((obstacle) => {
-      obstacle.style.animationPlayState = "paused";
-    });
-
+    clearIntervals();
+    pauseGameElements();
     overlay.classList.remove("hidden");
     playingGame = false;
-    console.log(playingGame);
   }
-};
-
-const resetGameElements = () => {
-  const allObstacles = document.querySelectorAll(".obstacle");
-
-  allObstacles.forEach((obstacle) => {
-    obstacle.remove();
-  });
-
-  character.removeAttribute("style");
-};
-
-const initGame = () => {
-  setObstacle = setInterval(() => {
-    const waitTime = Math.random() * 2000;
-    timeoutObstacle = setTimeout(generateObstacles, waitTime);
-  }, 3000);
-
-  collisionChecker = setInterval(checkForCollision, 100);
 };
 
 document.addEventListener("keydown", function (e) {
