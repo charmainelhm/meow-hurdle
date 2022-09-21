@@ -56,8 +56,7 @@ body {
   bottom: 0;
   right: 0;
   animation: block linear;
-  animation-duration: 3s;
-  /* animation-play-state: paused; */
+  /* animation-duration: 2s; */
 }
 
 @keyframes block {

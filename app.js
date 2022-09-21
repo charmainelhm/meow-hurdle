@@ -13,13 +13,36 @@ let [highScore, currentScore] = [0, 0];
 let playingGame = false;
 let setObstacle, collisionChecker, timeoutObstacle, scoreUpdate;
 
+const levelInfo = [
+  {
+    speed: 2.5,
+    interval: 2000,
+    waitTime: 1000,
+  },
+  {
+    speed: 2,
+    interval: 1500,
+    waitTime: 1200,
+  },
+  {
+    speed: 1.5,
+    interval: 1000,
+    waitTime: 800,
+  },
+];
+let level = 0;
+
+const getSpeed = (level) => {
+  return `${levelInfo[level].speed}s`;
+};
+
 const initGame = () => {
   setScoreBoard();
 
   setObstacle = setInterval(() => {
-    const waitTime = Math.random() * 2000;
+    const waitTime = Math.random() * levelInfo[level].waitTime;
     timeoutObstacle = setTimeout(generateObstacles, waitTime);
-  }, 3000);
+  }, levelInfo[level].interval);
 
   collisionChecker = setInterval(checkForCollision, 100);
 
@@ -53,24 +76,25 @@ const pauseGameElements = () => {
   });
 };
 
+const setScoreBoard = () => {
+  setScore(highScoreEle, highScore);
+  setScore(currentScoreEle, currentScore);
+  highScoreTextEle.innerText = "Highscore";
+};
+
 const setScore = (screenEle, type) => {
   screenEle.innerText = String(type).padStart(5, "0");
 };
 
 const addScore = () => {
   currentScore++;
+  if ((currentScore % 250 === 0) & (level < levelInfo.length)) level++;
 };
 
 const updateHighScore = () => {
   if (currentScore <= highScore) return;
 
   highScore = currentScore;
-};
-
-const setScoreBoard = () => {
-  setScore(highScoreEle, highScore);
-  setScore(currentScoreEle, currentScore);
-  highScoreTextEle.innerText = "Highscore";
 };
 
 const jump = () => {
@@ -98,6 +122,10 @@ const clearObstacle = function () {
 const generateObstacles = () => {
   const obstacle = document.createElement("div");
   obstacle.classList.add("obstacle");
+  obstacle.style.animationDuration = getSpeed(level);
+
+  console.log(`Speed set at level ${level}`);
+
   obstacles.push(obstacle);
   gameScreen.appendChild(obstacle);
 
