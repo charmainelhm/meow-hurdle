@@ -4,6 +4,10 @@
   --screen-width: 600px;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
   font-family: "Press Start 2P", cursive;
 }
@@ -87,4 +91,9 @@ body {
 
 .hidden {
   display: none;
+}
+
+.scoreboard {
+  display: flex;
+  column-gap: 1rem;
 }

@@ -3,32 +3,49 @@
 const gameScreen = document.querySelector(".screen");
 const character = document.querySelector("#cat");
 const overlay = document.querySelector(".overlay");
+const highScoreTextEle = document.querySelector(".highscore-text");
+const currentScoreEle = document.querySelector(".currentscore");
+const highScoreEle = document.querySelector(".highscore");
 
 const screenLeft = gameScreen.getBoundingClientRect().left;
 const screenBottom = gameScreen.getBoundingClientRect().bottom;
 
 let obstacles = [];
+let [highScore, currentScore] = [0, 0];
 
 let playingGame = false;
-let setObstacle, collisionChecker, timeoutObstacle;
+let setObstacle, collisionChecker, timeoutObstacle, scoreUpdate;
 
 const initGame = () => {
+  setScoreBoard();
+
   setObstacle = setInterval(() => {
     const waitTime = Math.random() * 2000;
     timeoutObstacle = setTimeout(generateObstacles, waitTime);
   }, 3000);
 
   collisionChecker = setInterval(checkForCollision, 100);
+
+  scoreUpdate = setInterval(() => {
+    addScore();
+    setScore(currentScoreEle, currentScore);
+  }, 100);
 };
 
 const resetGameElements = function () {
   obstacles.forEach((obstacle) => {
-    console.log("clear");
-    const clearThisObstacle = clearObstacle.bind(obstacle);
-    clearThisObstacle();
+    // console.log("clear");
+    // const clearThisObstacle = clearObstacle.bind(obstacle);
+    // clearThisObstacle();
+    obstacle.remove();
   });
 
+  obstacles = [];
+
   character.removeAttribute("style");
+
+  currentScore = 0;
+  // console.log(obstacles);
 };
 
 const pauseGameElements = () => {
@@ -37,6 +54,26 @@ const pauseGameElements = () => {
   obstacles.forEach((obstacle) => {
     obstacle.style.animationPlayState = "paused";
   });
+};
+
+const setScore = (screenEle, type) => {
+  screenEle.innerText = String(type).padStart(5, "0");
+};
+
+const addScore = () => {
+  currentScore++;
+};
+
+const updateHighScore = () => {
+  if (currentScore <= highScore) return;
+
+  highScore = currentScore;
+};
+
+const setScoreBoard = () => {
+  setScore(highScoreEle, highScore);
+  setScore(currentScoreEle, currentScore);
+  highScoreTextEle.innerText = "Highscore";
 };
 
 const jump = () => {
@@ -52,11 +89,11 @@ const jump = () => {
 const clearIntervals = () => {
   clearInterval(setObstacle);
   clearInterval(collisionChecker);
+  clearInterval(scoreUpdate);
   clearTimeout(timeoutObstacle);
 };
 
 const clearObstacle = function () {
-  console.log(this);
   this.remove();
   obstacles.shift();
 };
@@ -104,7 +141,9 @@ document.addEventListener("keydown", function (e) {
     if (!playingGame) {
       overlay.classList.add("hidden");
       playingGame = true;
+
       updateOverlayContent();
+      updateHighScore();
       resetGameElements();
       initGame();
     } else {
