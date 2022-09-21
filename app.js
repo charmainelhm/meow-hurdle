@@ -7,9 +7,6 @@ const highScoreTextEle = document.querySelector(".highscore-text");
 const currentScoreEle = document.querySelector(".currentscore");
 const highScoreEle = document.querySelector(".highscore");
 
-const screenLeft = gameScreen.getBoundingClientRect().left;
-const screenBottom = gameScreen.getBoundingClientRect().bottom;
-
 let obstacles = [];
 let [highScore, currentScore] = [0, 0];
 
@@ -116,8 +113,12 @@ const updateOverlayContent = () => {
 };
 
 const getPosition = (element, side) => {
-  const elementPosition = element.getBoundingClientRect();
-  return elementPosition[side];
+  const parentPosition = gameScreen.getBoundingClientRect()[side];
+  const elementPosition = element.getBoundingClientRect()[side];
+
+  return side === "left"
+    ? elementPosition - parentPosition
+    : parentPosition - elementPosition;
 };
 
 const checkForCollision = () => {
@@ -125,10 +126,15 @@ const checkForCollision = () => {
 
   const obstacle = obstacles[0];
 
-  const obstacleLeft = getPosition(obstacle, "left") - screenLeft;
-  const characterBottom = screenBottom - getPosition(character, "bottom");
+  const obstacleLeft = getPosition(obstacle, "left");
+  const characterBottom = getPosition(character, "bottom");
+
+  // console.log(`left: ${obstacleLeft}`);
+  // console.log(`bottom: ${characterBottom}`);
 
   if (characterBottom < 55 && obstacleLeft < 50 && obstacleLeft > 0) {
+    // console.log(`Screen left: ${gameScreen.getBoundingClientRect().left}`);
+    // console.log(`Obstacle left: ${obstacle.getBoundingClientRect().left}`);
     clearIntervals();
     pauseGameElements();
     overlay.classList.remove("hidden");
