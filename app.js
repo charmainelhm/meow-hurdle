@@ -12,7 +12,8 @@ let [highScore, currentScore] = [0, 0];
 let level = 0;
 let playingGame = false;
 
-let collisionChecker, timeoutObstacle, scoreUpdate;
+let timeoutObstacle, updateGame;
+// let collisionChecker, timeoutObstacle, updateGame;
 
 const levelInfo = [
   {
@@ -40,18 +41,10 @@ const initGame = () => {
   setScoreBoard();
   setObstacle();
 
-  collisionChecker = setInterval(checkForCollision, 100);
-
-  scoreUpdate = setInterval(() => {
-    addScore();
-    setScore(currentScoreEle, currentScore);
+  updateGame = setInterval(() => {
+    checkForCollision();
+    updateScore();
   }, 100);
-
-  // setObstacle = setInterval(() => {
-  //   const waitTime = Math.random() * levelInfo[level].waitTime;
-  //   timeoutObstacle = setTimeout(generateObstacles, waitTime);
-  //   console.log("interval");
-  // }, levelInfo[level].interval);
 };
 
 const setObstacle = () => {
@@ -93,9 +86,10 @@ const setScore = (screenEle, type) => {
   screenEle.innerText = String(type).padStart(5, "0");
 };
 
-const addScore = () => {
+const updateScore = () => {
   currentScore++;
   if ((currentScore % 100 === 0) & (level < levelInfo.length - 1)) level++;
+  setScore(currentScoreEle, currentScore);
 };
 
 const updateHighScore = () => {
@@ -115,10 +109,8 @@ const jump = () => {
 };
 
 const clearIntervals = () => {
-  clearInterval(collisionChecker);
-  clearInterval(scoreUpdate);
+  clearInterval(updateGame);
   clearTimeout(timeoutObstacle);
-  // clearInterval(setObstacle);
 };
 
 const clearObstacle = function () {
