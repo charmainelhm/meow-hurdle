@@ -16,6 +16,7 @@ body {
   margin-top: 50px;
   margin-inline: auto;
   width: var(--screen-width);
+  background-image: url(assets/background.png);
   height: 300px;
   border: 1px solid black;
   position: relative;
@@ -23,10 +24,10 @@ body {
 }
 
 #cat {
-  width: 50px;
-  height: 50px;
-  background-image: url(assets/cat.png);
-  background-size: 50px 50px;
+  width: 80px;
+  height: 80px;
+  background-image: url(assets/cat_normal.png);
+  background-size: cover;
   position: absolute;
   bottom: 0;
 }
@@ -41,7 +42,8 @@ body {
   }
 
   50% {
-    bottom: 140px;
+    bottom: 150px;
+    background-image: url(assets/cat_jump.png);
   }
 
   100% {
@@ -50,14 +52,13 @@ body {
 }
 
 .obstacle {
-  width: 25px;
-  height: 50px;
-  background-color: rgb(133, 133, 25);
+  height: 48px;
+  width: 60px;
+  background-size: cover;
   position: absolute;
   bottom: 0;
   right: 0;
   animation: block linear;
-  /* animation-duration: 2s; */
 }
 
 @keyframes block {

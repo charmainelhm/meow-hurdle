@@ -13,7 +13,6 @@ let level = 0;
 let playingGame = false;
 
 let timeoutObstacle, updateGame;
-// let collisionChecker, timeoutObstacle, updateGame;
 
 const levelInfo = [
   {
@@ -119,8 +118,10 @@ const clearObstacle = function () {
 };
 
 const generateObstacles = () => {
+  const randomImgNum = Math.ceil(Math.random() * 3);
   const obstacle = document.createElement("div");
   obstacle.classList.add("obstacle");
+  obstacle.style.backgroundImage = `url(assets/water_0${randomImgNum}.png)`;
   obstacle.style.animationDuration = getSpeed(level);
 
   console.log(`Speed set at level ${level}`);
@@ -152,6 +153,7 @@ const checkForCollision = () => {
   if (obstacles.length === 0) return;
 
   const obstacle = obstacles[0];
+  const characterInfo = character.getBoundingClientRect();
 
   const obstacleLeft = getPosition(obstacle, "left");
   const characterBottom = getPosition(character, "bottom");
@@ -159,12 +161,15 @@ const checkForCollision = () => {
   // console.log(`left: ${obstacleLeft}`);
   // console.log(`bottom: ${characterBottom}`);
 
-  if (characterBottom < 55 && obstacleLeft < 50 && obstacleLeft > 0) {
-    // console.log(`Screen left: ${gameScreen.getBoundingClientRect().left}`);
-    // console.log(`Obstacle left: ${obstacle.getBoundingClientRect().left}`);
+  if (
+    characterBottom < 48 &&
+    obstacleLeft < characterInfo.width &&
+    obstacleLeft > 0
+  ) {
     clearIntervals();
     pauseGameElements();
     overlay.classList.remove("hidden");
+    character.style.backgroundImage = "url(assets/cat_gameover.png)";
     playingGame = false;
   }
 };
