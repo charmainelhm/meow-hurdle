@@ -1,6 +1,6 @@
 "use strict";
 
-const gameScreen = document.querySelector(".screen");
+const gameScreen = document.querySelector(".main-game");
 const character = document.querySelector("#cat");
 const overlay = document.querySelector(".overlay");
 const highScoreTextEle = document.querySelector(".highscore-text");
@@ -16,7 +16,7 @@ let timeoutObstacle, updateGame;
 
 const levelInfo = [
   {
-    speed: 2.5,
+    speed: 2.2,
     min: 1.5,
     max: 4,
   },
@@ -27,7 +27,7 @@ const levelInfo = [
   },
   {
     speed: 1.5,
-    min: 0.7,
+    min: 0.8,
     max: 2,
   },
 ];
