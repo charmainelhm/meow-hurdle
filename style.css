@@ -25,7 +25,8 @@ body {
 #cat {
   width: 50px;
   height: 50px;
-  background-color: maroon;
+  background-image: url(assets/cat.png);
+  background-size: 50px 50px;
   position: absolute;
   bottom: 0;
 }
