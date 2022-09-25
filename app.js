@@ -137,7 +137,7 @@ const updateOverlayContent = () => {
   const content = overlay.querySelector(".overlay__text");
 
   title.innerText = "Game Over";
-  content.innerText = "Press spacebar to try again";
+  content.innerHTML = "<span class='spacebar'>space</span> to try again";
 };
 
 const getPosition = (element, side) => {
