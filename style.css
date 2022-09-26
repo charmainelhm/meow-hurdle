@@ -19,6 +19,9 @@ html {
 
 body {
   font-family: "Press Start 2P", cursive;
+  background-image: url(assets/text-bg.png);
+  background-size: 100% 100vh;
+  background-repeat: no-repeat;
 }
 
 h1 {
@@ -38,6 +41,7 @@ p {
   border: var(--border-window);
   border-radius: 20px;
   overflow: hidden;
+  box-shadow: 1.5rem 1.5rem black;
 }
 
 .window__header {
