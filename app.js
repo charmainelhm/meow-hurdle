@@ -6,6 +6,7 @@ const overlay = document.querySelector(".overlay");
 const highScoreTextEle = document.querySelector(".highscore-text");
 const currentScoreEle = document.querySelector(".currentscore");
 const highScoreEle = document.querySelector(".highscore");
+const announcementEle = document.querySelector(".announcement");
 
 let obstacles = [];
 let [highScore, currentScore] = [0, 0];
@@ -75,6 +76,13 @@ const pauseGameElements = () => {
   });
 };
 
+const showAnnouncement = () => {
+  announcementEle.classList.remove("hidden");
+  setTimeout(() => {
+    announcementEle.classList.add("hidden");
+  }, 1500);
+};
+
 const setScoreBoard = () => {
   setScore(highScoreEle, highScore);
   setScore(currentScoreEle, currentScore);
@@ -87,7 +95,10 @@ const setScore = (screenEle, type) => {
 
 const updateScore = () => {
   currentScore++;
-  if ((currentScore % 100 === 0) & (level < levelInfo.length - 1)) level++;
+  if ((currentScore % 100 === 0) & (level < levelInfo.length - 1)) {
+    level++;
+    showAnnouncement();
+  }
   setScore(currentScoreEle, currentScore);
 };
 

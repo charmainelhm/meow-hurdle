@@ -128,17 +128,20 @@ p {
   }
 }
 
+.box {
+  background-color: rgb(255, 255, 255);
+  border: var(--border-window);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
 .overlay {
   display: block;
   position: absolute;
   z-index: 10;
   inset-inline: 60px;
-  background-color: rgb(255, 255, 255);
-  border: var(--border-window);
-  border-radius: 8px;
   text-align: center;
   margin-top: 2rem;
-  padding: 2rem;
 }
 
 .overlay__title {
@@ -159,6 +162,29 @@ p {
   display: flex;
   justify-content: flex-end;
   column-gap: 1rem;
+}
+
+[class|="highscore"] {
+  color: rgb(173, 57, 44);
+}
+
+.announcement {
+  text-align: center;
+  animation: blink 0.5s cubic-bezier(1, 0, 0, 1) infinite;
+}
+
+.announcement p {
+  display: inline-block;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 .spacebar {
