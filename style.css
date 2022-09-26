@@ -89,6 +89,28 @@ p {
   bottom: 0;
 }
 
+.add-to-score {
+  position: absolute;
+  right: -25px;
+  opacity: 0;
+}
+
+.add-to-score.animation {
+  animation: evaporate 1s linear;
+}
+
+@keyframes evaporate {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+
+  100% {
+    top: -20px;
+    opacity: 0;
+  }
+}
+
 .jump {
   animation: jump 0.8s;
 }

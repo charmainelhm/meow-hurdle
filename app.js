@@ -9,6 +9,7 @@ const highScoreEle = document.querySelector(".highscore");
 const announcementEle = document.querySelector(".announcement");
 
 let obstacles = [];
+let obstacleCounter = 0;
 let [highScore, currentScore] = [0, 0];
 let level = 0;
 let playingGame = false;
@@ -132,7 +133,15 @@ const generateObstacles = () => {
   const randomImgNum = Math.ceil(Math.random() * 3);
   const obstacle = document.createElement("div");
   obstacle.classList.add("obstacle");
-  obstacle.style.backgroundImage = `url(assets/water_0${randomImgNum}.png)`;
+
+  obstacleCounter++;
+
+  if (obstacleCounter % 8 === 0) {
+    obstacle.dataset.notObstacle = "true";
+    obstacle.style.backgroundColor = "pink";
+  } else {
+    obstacle.style.backgroundImage = `url(assets/water_0${randomImgNum}.png)`;
+  }
   obstacle.style.animationDuration = getSpeed(level);
 
   console.log(`Speed set at level ${level}`);
@@ -177,11 +186,24 @@ const checkForCollision = () => {
     obstacleLeft < characterInfo.width &&
     obstacleLeft > 0
   ) {
-    clearIntervals();
-    pauseGameElements();
-    overlay.classList.remove("hidden");
-    character.style.backgroundImage = "url(assets/cat_gameover.png)";
-    playingGame = false;
+    if (obstacle.hasAttribute("data-not-obstacle")) {
+      currentScore += 30;
+
+      const addToScore = character.querySelector(".add-to-score");
+      addToScore.classList.add("animation");
+      addToScore.addEventListener("animationend", (e) => {
+        e.stopPropagation();
+        addToScore.classList.remove("animation");
+      });
+
+      obstacle.style.opacity = "0";
+    } else {
+      clearIntervals();
+      pauseGameElements();
+      overlay.classList.remove("hidden");
+      character.style.backgroundImage = "url(assets/cat_gameover.png)";
+      playingGame = false;
+    }
   }
 };
 
