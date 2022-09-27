@@ -138,7 +138,7 @@ const generateObstacles = () => {
 
   if (obstacleCounter % 8 === 0) {
     obstacle.dataset.notObstacle = "true";
-    obstacle.style.backgroundColor = "pink";
+    obstacle.style.backgroundImage = "url(assets/fish.png)";
   } else {
     obstacle.style.backgroundImage = `url(assets/water_0${randomImgNum}.png)`;
   }
@@ -187,7 +187,9 @@ const checkForCollision = () => {
     obstacleLeft > 0
   ) {
     if (obstacle.hasAttribute("data-not-obstacle")) {
+      if (obstacle.hasAttribute("data-points-added")) return;
       currentScore += 30;
+      obstacle.dataset.pointsAdded = "true";
 
       const addToScore = character.querySelector(".add-to-score");
       addToScore.classList.add("animation");
