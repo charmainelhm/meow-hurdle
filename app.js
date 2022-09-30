@@ -18,12 +18,12 @@ let timeoutObstacle, updateGame;
 
 const levelInfo = [
   {
-    speed: 2.2,
-    min: 1.5,
+    speed: 2,
+    min: 1.2,
     max: 4,
   },
   {
-    speed: 2,
+    speed: 1.8,
     min: 0.9,
     max: 3,
   },
@@ -153,11 +153,12 @@ const generateObstacles = () => {
 };
 
 const updateOverlayContent = () => {
-  const title = overlay.querySelector(".overlay__title");
+  // const title = overlay.querySelector(".overlay__title");
   const content = overlay.querySelector(".overlay__text");
 
-  title.innerText = "Game Over";
-  content.innerHTML = "<span class='spacebar'>space</span> to try again";
+  // title.innerText = "Game Over";
+  content.innerHTML =
+    "Game Over! </br></br><small>* <span class='spacebar'>space</span> to try again * </small>";
 };
 
 const getPosition = (element, side) => {
