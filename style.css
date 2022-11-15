@@ -19,11 +19,16 @@ html {
 
 body {
   font-family: "Press Start 2P", cursive;
+}
+
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -5;
   background-image: url(assets/main-bg.png);
   background-size: cover;
   background-repeat: no-repeat;
-  height: 100vh;
-  padding-top: 10rem;
+  opacity: 0.4;
 }
 
 h1 {
@@ -39,7 +44,7 @@ p {
   width: var(--screen-width);
   background-color: white;
   height: 340px;
-  /* margin-top: 5rem; */
+  margin-top: 5rem;
   margin-inline: auto;
   border: var(--border-window);
   border-radius: 20px;
